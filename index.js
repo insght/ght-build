@@ -1,5 +1,6 @@
 /** ght-build alpha */
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
 module.exports = function() {
 	var exec = require('child_process').exec;
@@ -12,20 +13,14 @@ module.exports = function() {
 		var dataJSON  = JSON.parse(data);
 		var themeName = dataJSON.name;
 
-		exec('mkdir '+__dirname+'/skin/frontend/' + themeName, function (err, stdout, stderr) {
-			if (err) {
-				return console.log(err);
-			}
+		mkdirp('skin/frontend/' + themeName, function(err) {
 
-			exec('mkdir '+__dirname+'/skin/frontend/' + themeName + '/default', function (err, stdout, stderr) {
-				if (err) {
-					return console.log(err);
-				}
+			// path was created unless there was error
+			mkdirp('skin/frontend/' + themeName + '/default', function(err) {
 
-				console.log(stdout);
+				// path was created unless there was error
+
 			});
-
-			console.log(stdout);
 		});
 	});
 }
