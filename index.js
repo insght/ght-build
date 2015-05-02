@@ -12,12 +12,12 @@ module.exports = function() {
 		var dataJSON  = JSON.parse(data);
 		var themeName = dataJSON.name;
 
-		exec('mkdir skin/frontend/' + themeName, function (err, stdout, stderr) {
+		exec('mkdir '+__dirname+'/skin/frontend/' + themeName, function (err, stdout, stderr) {
 			if (err) {
 				return console.log(err);
 			}
 
-			exec('mkdir skin/frontend/' + themeName + '/default', function (err, stdout, stderr) {
+			exec('mkdir '+__dirname+'/skin/frontend/' + themeName + '/default', function (err, stdout, stderr) {
 				if (err) {
 					return console.log(err);
 				}
