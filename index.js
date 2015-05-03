@@ -128,28 +128,31 @@ module.exports = {
 				var gulp	= props.gulp;
 				var bower	= props.bower;
 				var susy	= props.susy;
-
+ 
 				if(bower == 'yes') {
 					console.log('Starting for install bower package');
 					exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
 						console.log(stdout);
 
-						console.log(stdout);
+						var filesCreated = 0;
+						fse.copy(__dirname + '/templates/_bower.json.temp', skin_path + '/bower.json', function(error){
+							createdLog(error, 'bower.json');
+							replaceStr('{project_name}', settings.name, [skin_path + '/bower.json']);
 
-						exec('cd '+skin_path+' && bower install', function (error, stdout, stderr) {
-							console.log(stdout);
-
-							fse.copy(__dirname + '/templates/_bower.json.temp', skin_path + '/bower.json', function(error){
-								createdLog(error, 'bower.json');
-								replaceStr('{project_name}', settings.name, [skin_path + '/bower.json']);
-							});
-
-							fse.copy(__dirname + '/templates/.bowerrc.temp', skin_path + '/.bowerrc', function(error){
-								createdLog(error, '.bowerrc');
-								replaceStr('{project_name}', settings.name, [skin_path + '/.bowerrc']);
-							});
+							filesCreated+=1;
 						});
 
+						fse.copy(__dirname + '/templates/.bowerrc.temp', skin_path + '/.bowerrc', function(error){
+							createdLog(error, '.bowerrc');
+							replaceStr('{project_name}', settings.name, [skin_path + '/.bowerrc']);
+							filesCreated+=1;
+						});
+
+						when(filesCreated, function(){
+							exec('cd '+skin_path+' && bower install', function (error, stdout, stderr) {
+								console.log(stdout);
+							});
+						});
 					});
 				}
 
