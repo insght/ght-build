@@ -85,21 +85,19 @@ module.exports = {
 		mkdirp(designPath('default'), function(error){
 			createdLog(error, designPath('default'));
 		});
+
+		// scss
+		mkdirp(skinPath('default/scss/'), function(error){
+			createdLog(error, skinPath('default/scss/'));
+
+			deferred.resolve('finish');
+		});
 	},
 	createFiles: function(cwd) {
-		// scss
-		for (var key in settings.fileAndDirs.scss) {
-			mkdirp(skinPath('default/scss/' + key), function(error){
-				createdLog(error, skinPath('default/scss/' + key));
-
-				deferred.resolve('finish');
-			});
-		}
 
 	},
 	init: function(cwd) {
 		this.createEmptyDirectories();
-		this.createFiles(cwd);
 
 		exec('cd '  + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
 			var when = promise.when;
