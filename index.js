@@ -52,7 +52,7 @@ var rmdir = function(dir) {
 module.exports = {
 	createEmptyDirectories: function(){
 		// skin dir
-		mkdirp(skinPath(''), function(error){
+		mkdirp(skinPath('/'), function(error){
 			createdLog(error, skinPath());
 		});
 
@@ -79,7 +79,7 @@ module.exports = {
 		});
 
 		// app design dirs
-		mkdirp(designPath(''), function(error){
+		mkdirp(designPath('/'), function(error){
 			createdLog(error, designPath('default/js/main'));
 		});
 		mkdirp(designPath('default'), function(error){
@@ -93,9 +93,6 @@ module.exports = {
 			deferred.resolve('finish');
 		});
 	},
-	createFiles: function(cwd) {
-
-	},
 	init: function(cwd) {
 		this.createEmptyDirectories();
 
@@ -105,20 +102,26 @@ module.exports = {
 		when(deferred.promise, function() {
 			prompt.start();
 			var prompts = [{
-				description: "Install Gulp? (yes or no)",
+				description: "Install or update Gulp? (yes or no)",
 				name: 'gulp',
 				default: 'yes',
 				required: true,
 				hidden: false
 			}, {
-				description: "Install Bower? (yes or no)",
+				description: "Install or update Bower? (yes or no)",
 				name: 'bower',
 				default: 'yes',
 				hidden: false,
 				required: true
 			}, {
-				description: "Install Susy? (yes or no)",
+				description: "Install or update Susy? (yes or no)",
 				name: 'susy',
+				default: 'yes',
+				hidden: false,
+				required: true
+			}, {
+				description: "Install or update Compass? (yes or no)",
+				name: 'compass',
 				default: 'yes',
 				hidden: false,
 				required: true
@@ -128,7 +131,8 @@ module.exports = {
 				var gulp	= props.gulp;
 				var bower	= props.bower;
 				var susy	= props.susy;
- 
+				var compass	= props.compass;
+
 				if(bower == 'yes') {
 					console.log('Starting for install bower package');
 					exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
@@ -154,6 +158,8 @@ module.exports = {
 							});
 						});
 					});
+				} else {
+					console.log('bower installation - no');
 				}
 
 				if(gulp == 'yes') {
@@ -168,6 +174,8 @@ module.exports = {
 							});
 						});
 					});
+				} else {
+					console.log('gulp installation - no');
 				}
 
 				if(susy == 'yes') {
@@ -175,21 +183,27 @@ module.exports = {
 					exec('gem install susy', function (error, stdout, stderr) {
 						console.log(stdout);
 					});
+				} else {
+					console.log('susy installation - no');
 				}
 
-				console.log('Starting for install compass');
-				exec('gem install compass', function (error, stdout, stderr) {
-					console.log(stdout, stderr, error);
+				if(compass == 'yes') {
+					console.log('Starting for install compass');
+					exec('gem install compass', function (error, stdout, stderr) {
+						console.log(stdout, stderr, error);
 
-					exec('compass create ' + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
-						rmdir(process.cwd() + '/' + skinPath('default/stylesheets'));
-						rmdir(process.cwd() + '/' + skinPath('default/sass'));
+						exec('compass create ' + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
+							rmdir(skin_path + '/stylesheets');
+							rmdir(skin_path + '/sass');
 
-						fse.copy(__dirname + '/templates/styles.scss.temp', process.cwd() + '/' + skinPath('default/scss/')  + 'styles.scss', function(error){
-							createdLog(error, 'styles.scss');
+							fse.copy(__dirname + '/templates/styles.scss.temp',skin_path + '/scss/styles.scss', function(error){
+								createdLog(error, 'styles.scss');
+							});
 						});
 					});
-				});
+				} else {
+					console.log('compass installation - no');
+				}
 			});
 		});
 	}
