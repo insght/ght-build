@@ -84,6 +84,8 @@ module.exports = {
 		});
 		mkdirp(designPath('default'), function(error){
 			createdLog(error, designPath('default'));
+
+			defered.resolve('finish');
 		});
 	},
 	createFiles: function(cwd) {
@@ -99,22 +101,6 @@ module.exports = {
 				});
 			});
 		}
-
-		fse.copy(__dirname + '/templates/_bower.json.temp', 'bower.json', function(error){
-			createdLog(error, 'bower.json');
-			replaceStr('{project_name}', settings.name, ['bower.json']);
-		});
-
-		fse.copy(__dirname + '/templates/.bowerrc.temp', '.bowerrc', function(error){
-			createdLog(error, '.bowerrc');
-			replaceStr('{project_name}', settings.name, ['.bowerrc']);
-		});
-
-		fse.copy(__dirname + '/templates/_gulpfile.js.temp', 'gulpfile.js', function(error){
-			createdLog(error, 'gulpfile.js');
-			deferred.resolve('Creating files finished');
-		});
-
 	},
 	init: function(cwd) {
 		this.createEmptyDirectories();
@@ -158,10 +144,18 @@ module.exports = {
 
 							exec('bower install', function (error, stdout, stderr) {
 								console.log(stdout);
+
+								fse.copy(__dirname + '/templates/_bower.json.temp', process.cwd() + '/' + skinPath('default/') + 'bower.json', function(error){
+									createdLog(error, 'bower.json');
+									replaceStr('{project_name}', settings.name, ['bower.json']);
+								});
+
+								fse.copy(__dirname + '/templates/.bowerrc.temp', process.cwd() + '/' + skinPath('default/') + '.bowerrc', function(error){
+									createdLog(error, '.bowerrc');
+									replaceStr('{project_name}', settings.name, ['.bowerrc']);
+								});
 							});
 						});
-
-
 					});
 				}
 
@@ -171,6 +165,11 @@ module.exports = {
 						console.log(stdout);
 						exec('npm install gulp --save-dev', function (error, stdout, stderr) {
 							console.log(stdout);
+
+							fse.copy(__dirname + '/templates/_gulpfile.js.temp', process.cwd() + '/' + skinPath('default/') + 'gulpfile.js', function(error){
+								createdLog(error, 'gulpfile.js');
+								deferred.resolve('Creating files finished');
+							});
 						});
 					});
 				}
@@ -190,7 +189,7 @@ module.exports = {
 						rmdir(process.cwd() + '/' + skinPath('default/stylesheets'));
 						rmdir(process.cwd() + '/' + skinPath('default/sass'));
 
-						fse.copy(__dirname + '/templates/styles.scss.temp', process.cwd() + '/' + skinPath('default/sass/')  + 'styles.scss', function(error){
+						fse.copy(__dirname + '/templates/styles.scss.temp', process.cwd() + '/' + skinPath('default/scss/')  + 'styles.scss', function(error){
 							createdLog(error, 'styles.scss');
 						});
 					});
