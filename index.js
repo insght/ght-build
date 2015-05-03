@@ -167,6 +167,9 @@ module.exports = {
 					console.log('Starting for install gulp package');
 					exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
 						console.log(stdout);
+						exec('npm install gulp --save-dev', function (error, stdout, stderr) {
+							console.log(stdout);
+						});
 					});
 				}
 
