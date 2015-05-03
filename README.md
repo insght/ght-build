@@ -1,6 +1,14 @@
 # Small Magento Project Generator
 Help magento frontend developers with initialization package and theme.
-This modules helps you install needed libraries and modules for your project.
+
+
+##  What ght-build will do?
+ - Creating your package with default theme.
+ - Install or update gulp(local and global) with gulpfile.js, with tasks in root theme directory.
+ - Install or update bower(global) with .bowerrc and bower.json file with needed libraries in root theme directory.
+ - Install or update compass and create project with "base" styles.scss file in root directory of your theme.
+ - Install or update sussy.
+
 
 ## Getting started
 Installation:
@@ -13,15 +21,16 @@ Run:
 $ ghtbuild
 ```
 
-## Features(now)
+## Features (now)
 * Gulp support
 * Susy support
 * Bower support
+* Compass support
 
-## Features(todo)
+## Features (todo)
 * Twitter Bootstrap support
 * Magento Sample data installation
-* Compass support
+
 
 
 ## License
