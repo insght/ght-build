@@ -99,7 +99,7 @@ module.exports = {
 	init: function(cwd) {
 		this.createEmptyDirectories();
 
-		var skinPath = process.cwd() + '/' + skinPath('default');
+		var skin_path = process.cwd() + '/' + skinPath('default');
 
 		var when = promise.when;
 		when(deferred.promise, function() {
@@ -136,17 +136,17 @@ module.exports = {
 
 						console.log(stdout);
 
-						exec('cd '+skinPath+' && bower install', function (error, stdout, stderr) {
+						exec('cd '+skin_path+' && bower install', function (error, stdout, stderr) {
 							console.log(stdout);
 
-							fse.copy(__dirname + '/templates/_bower.json.temp', process.cwd() + '/' + skinPath('default/') + 'bower.json', function(error){
+							fse.copy(__dirname + '/templates/_bower.json.temp', skin_path + '/bower.json', function(error){
 								createdLog(error, 'bower.json');
-								replaceStr('{project_name}', settings.name, [process.cwd() + '/' + skinPath('default/') + 'bower.json']);
+								replaceStr('{project_name}', settings.name, [skin_path + '/bower.json']);
 							});
 
-							fse.copy(__dirname + '/templates/.bowerrc.temp', process.cwd() + '/' + skinPath('default/') + '.bowerrc', function(error){
+							fse.copy(__dirname + '/templates/.bowerrc.temp', skin_path + '/.bowerrc', function(error){
 								createdLog(error, '.bowerrc');
-								replaceStr('{project_name}', settings.name, [process.cwd() + '/' + skinPath('default/') + '.bowerrc']);
+								replaceStr('{project_name}', settings.name, [skin_path + '/.bowerrc']);
 							});
 						});
 
@@ -157,10 +157,10 @@ module.exports = {
 					console.log('Starting for install gulp package');
 					exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
 						console.log(stdout);
-						exec('cd '+skinPath+' && npm install gulp --save-dev', function (error, stdout, stderr) {
+						exec('cd '+skin_path+' && npm install gulp --save-dev', function (error, stdout, stderr) {
 							console.log(stdout);
 
-							fse.copy(__dirname + '/templates/_gulpfile.js.temp', process.cwd() + '/' + skinPath('default/') + 'gulpfile.js', function(error){
+							fse.copy(__dirname + '/templates/_gulpfile.js.temp', skin_path + '/gulpfile.js', function(error){
 								createdLog(error, 'gulpfile.js');
 							});
 						});
