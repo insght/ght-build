@@ -54,7 +54,7 @@ module.exports = {
 	createEmptyDirectories: function(){
 		// skin dir
 		mkdirp(skinPath('/'), function(error){
-			createdLog(error, skinPath());
+			createdLog(error, skinPath(''));
 		});
 
 		var magento19SkinSchema = ghtConf.ghtThemeSchema.magento19.skin;
@@ -66,7 +66,7 @@ module.exports = {
 
 		// app design dirs
 		mkdirp(designPath('/'), function(error){
-			createdLog(error, designPath('default/js/main'));
+			createdLog(error, designPath(''));
 		});
 
 		var magento19DesignSchema = ghtConf.ghtThemeSchema.magento19.design;
@@ -74,7 +74,7 @@ module.exports = {
 			mkdirp(designPath(dir),function(error){
 				createdLog(error, skinPath(dir));
 
-				if(index == magento19DesignSchema.length) {
+				if(index == (magento19DesignSchema.length-1)) {
 					deferred.resolve('Finish');
 				}
 			});
