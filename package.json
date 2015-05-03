@@ -1,6 +1,6 @@
 {
   "name": "ght-build",
-  "version": "0.1.9",
+  "version": "0.1.9.2",
   "description": "Magento Project Initialization for Frontend",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "bin"
   ],
   "dependencies": {
-    "path": "^1.0.0",
+    "path": "latest",
     "gulp": "latest",
     "fs-extra": "latest",
     "mkdirp": "latest",
