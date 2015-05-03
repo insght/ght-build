@@ -1,6 +1,6 @@
 {
   "name": "ght-build",
-  "version": "0.1.9.2",
+  "version": "0.1.9",
   "description": "Magento Project Initialization for Frontend",
   "main": "index.js",
   "scripts": {
