@@ -25,6 +25,7 @@
     "index.js",
     "templates",
     "ght-project.json",
+    "ght.schema.js",
     ".gitignore",
     "README.md",
     "LICENSE",

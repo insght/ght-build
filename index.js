@@ -9,7 +9,7 @@ var replace 	= require("replace");
 var promise		= require('node-promise');
 var mkdirp		= require('mkdirp');
 var exec		= require('child_process').exec;
-var ghtConf		= require('./ghtproject.js');
+var ghtConf		= require('./ght.schema.js');
 
 var defer		= promise.defer;
 var deferred	= defer();
