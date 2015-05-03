@@ -23,10 +23,9 @@
   },
   "files": [
     "index.js",
-    "ghtproject.js",
     "templates",
     "ght-project.json",
-    ".gitigonre",
+    ".gitignore",
     "README.md",
     "LICENSE",
     "bin"
@@ -34,6 +33,7 @@
   "dependencies": {
     "path": "latest",
     "node-promise": "^0.5.12",
+    "replace": "latest",
     "gulp": "latest",
     "fs-extra": "latest",
     "mkdirp": "latest",

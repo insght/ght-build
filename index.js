@@ -4,6 +4,7 @@
 var fs		= require('fs');
 var fse 	= require('fs-extra');
 var path	= require('path');
+var replace = require("replace");
 var promise	= require('node-promise');
 var mkdirp	= require('mkdirp');
 var exec	= require('child_process').exec;
@@ -79,15 +80,42 @@ module.exports = {
 		fse.copy(__dirname + '/templates/_bower.temp.json', 'bower.json', function(error){
 			createdLog(error, 'bower.json');
 		});
+
 		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', function(error){
-			createdLog(error, 'gulp.js');
+			createdLog(error, 'gulpfile.js');
 		});
 	},
 	init: function(cwd) {
 		var ght_ = this;
 		var when = require("node-promise").when;
+
 		when(this.createEmptyDirectories(), function(){
-			ght_.createFiles(cwd);
+			when(ght_.createFiles(cwd), function(){
+				replace({
+					regex: "{project_name}",
+					replacement: settings.name,
+					paths: [cwd + '/bower.json'],
+					recursive: true,
+					silent: true
+				});
+
+				replace({
+					regex: "{main_css}",
+					replacement: "/skin/frontend/" + settings.name + "/default/css/main.css",
+					paths: [cwd + '/bower.json'],
+					recursive: true,
+					silent: true
+				});
+
+				exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
+					console.log(stdout);
+				});
+
+				exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
+					console.log(stdout);
+				});
+			});
 		});
+
 	}
 };
