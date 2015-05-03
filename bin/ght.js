@@ -13,7 +13,7 @@ var ght = new Liftoff({
 var argv = require('minimist')(process.argv.slice(2));
 
 var invoke = function (env) {
-	ghtModule.init();
+	ghtModule.init(argv.cwd);
 };
 
 ght.launch({

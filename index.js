@@ -34,7 +34,7 @@ module.exports = {
 		mkdirp(designPath(), console.log);
 		mkdirp(designPath('default'), console.log);
 	},
-	createFiles: function() {
+	createFiles: function(cwd) {
 		// scss
 		for (var key in settings.fileAndDirs.scss) {
 			mkdirp(skinPath('default/scss/' + key), console.log);
@@ -47,8 +47,10 @@ module.exports = {
 		fse.copy(__dirname + '/templates/_bower.temp.json', 'bower.json', console.log);
 		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', console.log);
 	},
-	init: function() {
+	init: function(cwd) {
 		var when = require("promise").when;
-		when(this.createEmptyDirectories(), this.createFiles);
+		when(this.createEmptyDirectories(), function(){
+			this.createFiles(cwd);
+		});
 	}
 };
