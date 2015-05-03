@@ -91,23 +91,19 @@ module.exports = {
 		for (var key in settings.fileAndDirs.scss) {
 			mkdirp(skinPath('default/scss/' + key), function(error){
 				createdLog(error, skinPath('default/scss/' + key));
-			});
 
-			settings.fileAndDirs.scss[key].forEach(function(data){
-				fs.writeFile(skinPath('default/scss/' + key + '/' + data), null, function(error){
-					createdLog(error, skinPath('default/scss/' + key + '/' + data));
-				});
+				deferred.resolve('finish');
 			});
 		}
 
-		deferred.resolve('finish');
 	},
 	init: function(cwd) {
 		this.createEmptyDirectories();
 		this.createFiles(cwd);
 
-		var when = promise.when;
-		when(deferred.promise, function() {
+		exec('cd '  + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
+			var when = promise.when;
+			when(deferred.promise, function() {
 			prompt.start();
 			var prompts = [{
 				description: "Install Gulp? (yes or no)",
@@ -139,23 +135,22 @@ module.exports = {
 					exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
 						console.log(stdout);
 
-						exec('cd '  + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
+						console.log(stdout);
+
+						exec('bower install', function (error, stdout, stderr) {
 							console.log(stdout);
 
-							exec('bower install', function (error, stdout, stderr) {
-								console.log(stdout);
+							fse.copy(__dirname + '/templates/_bower.json.temp', process.cwd() + '/' + skinPath('default/') + 'bower.json', function(error){
+								createdLog(error, 'bower.json');
+								replaceStr('{project_name}', settings.name, [process.cwd() + '/' + skinPath('default/') + 'bower.json']);
+							});
 
-								fse.copy(__dirname + '/templates/_bower.json.temp', process.cwd() + '/' + skinPath('default/') + 'bower.json', function(error){
-									createdLog(error, 'bower.json');
-									replaceStr('{project_name}', settings.name, ['bower.json']);
-								});
-
-								fse.copy(__dirname + '/templates/.bowerrc.temp', process.cwd() + '/' + skinPath('default/') + '.bowerrc', function(error){
-									createdLog(error, '.bowerrc');
-									replaceStr('{project_name}', settings.name, ['.bowerrc']);
-								});
+							fse.copy(__dirname + '/templates/.bowerrc.temp', process.cwd() + '/' + skinPath('default/') + '.bowerrc', function(error){
+								createdLog(error, '.bowerrc');
+								replaceStr('{project_name}', settings.name, [process.cwd() + '/' + skinPath('default/') + '.bowerrc']);
 							});
 						});
+
 					});
 				}
 
@@ -193,6 +188,7 @@ module.exports = {
 						});
 					});
 				});
+			});
 			});
 		});
 	}
