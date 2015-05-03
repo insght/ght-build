@@ -1,20 +1,28 @@
 # Small Magento Project Generator
 Help magento frontend developers with initialization package and theme.
+This modules helps you install needed libraries and modules for your project.
 
 ## Getting started
 Installation:
 ```sh
-$ npm install gulp -g
 $ npm install git+https://github.com/insght/ght-build.git -g
 ```
 
-Init project:
+Run:
 ```sh
-$ ghtbuild init
+$ ghtbuild
 ```
 
-## Features
-// TODO
+## Features(now)
+* Gulp support
+* Susy support
+* Bower support
+
+## Features(todo)
+* Twitter Bootstrap support
+* Magento Sample data installation
+* Compass support
+
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)

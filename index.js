@@ -4,11 +4,14 @@
 var fs			= require('fs');
 var fse 		= require('fs-extra');
 var path		= require('path');
-var promptly	= require('promptly');
+var prompt		= require('prompt');
 var replace 	= require("replace");
 var promise		= require('node-promise');
 var mkdirp		= require('mkdirp');
 var exec		= require('child_process').exec;
+
+var defer		= promise.defer;
+var deferred	= defer();
 
 // app
 var settings = JSON.parse(fs.readFileSync('ght-project.json','utf8'));
@@ -100,34 +103,67 @@ module.exports = {
 
 		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', function(error){
 			createdLog(error, 'gulpfile.js');
+
+			deferred.resolve('Creating files finished');
 		});
+
 	},
 	init: function(cwd) {
-		var ght_ = this;
-		var when = require("node-promise").when;
+		this.createEmptyDirectories();
+		this.createFiles(cwd);
 
-		when(this.createEmptyDirectories(), function(){
-			when(ght_.createFiles(cwd), function(){
+		var when = promise.when;
+		when(deferred.promise, function() {
+			prompt.start();
+			var prompts = [{
+				description: "Install Gulp? (yes or no)",
+				name: 'gulp',
+				default: 'yes',
+				required: true,
+				hidden: false
+			}, {
+				description: "Install Bower? (yes or no)",
+				name: 'bower',
+				default: 'yes',
+				hidden: false,
+				required: true
+			}, {
+				description: "Install Susy? (yes or no)",
+				name: 'susy',
+				default: 'yes',
+				hidden: false,
+				required: true
+			}];
 
-				console.log('Install: Bower');
-				exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
-					console.log(stdout);
-				});
+			prompt.get(prompts, function (error,  props) {
+				var gulp	= props.gulp;
+				var bower	= props.bower;
+				var susy	= props.susy;
 
-				console.log("\n\r", 'Install: Gulp');
-				exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
-					console.log(stdout);
-				});
+				if(bower == 'yes') {
+					console.log('Starting for install bower package');
+					exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
+						console.log(stdout);
 
-				promptly.prompt('Install susy?(Yes\\No): ', function (err, value) {
-					if(value == 'yes') {
-						exec('gem install susy', function (error, stdout, stderr) {
+						exec('bower install', function (error, stdout, stderr) {
 							console.log(stdout);
 						});
-					} else {
-						console.log('Finished!');
-					}
-				});
+					});
+				}
+
+				if(gulp == 'yes') {
+					console.log('Starting for install gulp package');
+					exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
+						console.log(stdout);
+					});
+				}
+
+				if(susy == 'yes') {
+					console.log('Starting for install susy');
+					exec('gem install susy', function (error, stdout, stderr) {
+						console.log(stdout);
+					});
+				}
 			});
 		});
 	}

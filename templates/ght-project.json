@@ -1,3 +1,14 @@
 {
-  "test": "test"
+  "name": "test-theme",
+  "fileAndDirs": {
+    "scss": {
+      "content": [
+        "_homepage.scss"
+      ],
+      "layout": [
+        "_header.scss",
+        "_footer.scss"
+      ]
+    }
+  }
 }
