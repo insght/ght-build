@@ -24,6 +24,11 @@
   "files": [
     "index.js",
     "ghtproject.js",
+    "templates",
+    "ght-project.json",
+    ".gitigonre",
+    "README.md",
+    "LICENSE",
     "bin"
   ],
   "dependencies": {
