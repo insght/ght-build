@@ -100,7 +100,7 @@ module.exports = {
 			});
 		}
 
-		defered.resolve('finish');
+		deferred.resolve('finish');
 	},
 	init: function(cwd) {
 		this.createEmptyDirectories();
