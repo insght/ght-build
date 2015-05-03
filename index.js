@@ -33,7 +33,7 @@ module.exports = {
 	createEmptyDirectories: function(){
 		// skin dir
 
-		mkdirp(skinPath(), function(error){
+		mkdirp(skinPath(''), function(error){
 			createdLog(error, skinPath());
 		});
 
@@ -60,7 +60,7 @@ module.exports = {
 		});
 
 		// app design dirs
-		mkdirp(designPath(), function(error){
+		mkdirp(designPath(''), function(error){
 			createdLog(error, designPath('default/js/main'));
 		});
 		mkdirp(designPath('default'), function(error){
@@ -96,6 +96,18 @@ module.exports = {
 				regex: "{main_css}",
 				replacement: "/skin/frontend/" + settings.name + "/default/css/main.css",
 				paths: ['bower.json'],
+				recursive: true,
+				silent: true
+			});
+		});
+
+		fse.copy(__dirname + '/templates/.bowerrc.temp', '.bowerrc', function(error){
+			createdLog(error, '.bowerrc');
+
+			replace({
+				regex: "{project_name}",
+				replacement: settings.name,
+				paths: ['.bowerrc'],
 				recursive: true,
 				silent: true
 			});
