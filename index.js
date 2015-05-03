@@ -9,6 +9,7 @@ var replace 	= require("replace");
 var promise		= require('node-promise');
 var mkdirp		= require('mkdirp');
 var exec		= require('child_process').exec;
+var ghtConf		= require('./ghtproject.js');
 
 var defer		= promise.defer;
 var deferred	= defer();
@@ -56,41 +57,27 @@ module.exports = {
 			createdLog(error, skinPath());
 		});
 
-		mkdirp(skinPath('default'),function(error){
-			createdLog(error, skinPath('default'));
-		});
-		mkdirp(skinPath('default/scss'), function(error){
-			createdLog(error, skinPath('default/scss'));
-		});
-		mkdirp(skinPath('default/images'), function(error){
-			createdLog(error, skinPath('default/images'));
-		});
-		mkdirp(skinPath('default/css'), function(error){
-			createdLog(error, skinPath('default/css'));
-		});
-		mkdirp(skinPath('default/js'), function(error){
-			createdLog(error, skinPath('default/js'));
-		});
-		mkdirp(skinPath('default/js/vendor'), function(error){
-			createdLog(error, skinPath('default/js/vendor'));
-		});
-		mkdirp(skinPath('default/js/main'), function(error){
-			createdLog(error, skinPath('default/js/main'));
+		var magento19SkinSchema = ghtConf.ghtThemeSchema.magento19.skin;
+		magento19SkinSchema.forEach(function(dir, index){
+			mkdirp(skinPath(dir),function(error){
+				createdLog(error, skinPath(dir));
+			});
 		});
 
 		// app design dirs
 		mkdirp(designPath('/'), function(error){
 			createdLog(error, designPath('default/js/main'));
 		});
-		mkdirp(designPath('default'), function(error){
-			createdLog(error, designPath('default'));
-		});
 
-		// scss
-		mkdirp(skinPath('default/scss/'), function(error){
-			createdLog(error, skinPath('default/scss/'));
+		var magento19DesignSchema = ghtConf.ghtThemeSchema.magento19.design;
+		magento19DesignSchema.forEach(function(dir, index){
+			mkdirp(designPath(dir),function(error){
+				createdLog(error, skinPath(dir));
 
-			deferred.resolve('finish');
+				if(index == magento19DesignSchema.length) {
+					deferred.resolve('Finish');
+				}
+			});
 		});
 	},
 	init: function(cwd) {
@@ -101,32 +88,8 @@ module.exports = {
 		var when = promise.when;
 		when(deferred.promise, function() {
 			prompt.start();
-			var prompts = [{
-				description: "Install or update Gulp? (yes or no)",
-				name: 'gulp',
-				default: 'yes',
-				required: true,
-				hidden: false
-			}, {
-				description: "Install or update Bower? (yes or no)",
-				name: 'bower',
-				default: 'yes',
-				hidden: false,
-				required: true
-			}, {
-				description: "Install or update Susy? (yes or no)",
-				name: 'susy',
-				default: 'yes',
-				hidden: false,
-				required: true
-			}, {
-				description: "Install or update Compass? (yes or no)",
-				name: 'compass',
-				default: 'yes',
-				hidden: false,
-				required: true
-			}];
 
+			var prompts = ghtConf.promptProperties;
 			prompt.get(prompts, function (error,  props) {
 				var gulp	= props.gulp;
 				var bower	= props.bower;
