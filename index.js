@@ -18,34 +18,70 @@ var designPath =  function(additional) {
 	return 'app/design/frontend/' + settings.name + '/' + additional
 };
 
+var createdLog = function(error, dir) {
+	if(!error) return console.log(dir + ' - Created!');
+
+	return console.log(error, ' - error: ' + error);
+};
+
 module.exports = {
 	createEmptyDirectories: function(){
 		// skin dir
-		mkdirp(skinPath(), console.log);
-		mkdirp(skinPath('default'), console.log);
-		mkdirp(skinPath('default/scss'), console.log);
-		mkdirp(skinPath('default/images'), console.log);
-		mkdirp(skinPath('default/css'), console.log);
-		mkdirp(skinPath('default/js'), console.log);
-		mkdirp(skinPath('default/js/vendor'), console.log);
-		mkdirp(skinPath('default/js/main'), console.log);
+
+		mkdirp(skinPath(), function(error){
+			createdLog(error, skinPath());
+		});
+
+		mkdirp(skinPath('default'),function(error){
+			createdLog(error, skinPath('default'));
+		});
+		mkdirp(skinPath('default/scss'), function(error){
+			createdLog(error, skinPath('default/scss'));
+		});
+		mkdirp(skinPath('default/images'), function(error){
+			createdLog(error, skinPath('default/images'));
+		});
+		mkdirp(skinPath('default/css'), function(error){
+			createdLog(error, skinPath('default/css'));
+		});
+		mkdirp(skinPath('default/js'), function(error){
+			createdLog(error, skinPath('default/js'));
+		});
+		mkdirp(skinPath('default/js/vendor'), function(error){
+			createdLog(error, skinPath('default/js/vendor'));
+		});
+		mkdirp(skinPath('default/js/main'), function(error){
+			createdLog(error, skinPath('default/js/main'));
+		});
 
 		// app design dirs
-		mkdirp(designPath(), console.log);
-		mkdirp(designPath('default'), console.log);
+		mkdirp(designPath(), function(error){
+			createdLog(error, designPath('default/js/main'));
+		});
+		mkdirp(designPath('default'), function(error){
+			createdLog(error, designPath('default'));
+		});
 	},
 	createFiles: function(cwd) {
 		// scss
 		for (var key in settings.fileAndDirs.scss) {
-			mkdirp(skinPath('default/scss/' + key), console.log);
+			mkdirp(skinPath('default/scss/' + key), function(error){
+				createdLog(error, skinPath('default/scss/' + key));
+			});
 
 			settings.fileAndDirs.scss[key].forEach(function(data){
-				fs.writeFile(skinPath('default/scss/' + key + '/' + data), null, console.log);
+				fs.writeFile(skinPath('default/scss/' + key + '/' + data), null, function(error){
+					createdLog(error, skinPath('default/scss/' + key + '/' + data));
+				});
 			});
 		}
 
-		fse.copy(__dirname + '/templates/_bower.temp.json', 'bower.json', console.log);
-		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', console.log);
+		fse.copy(__dirname + '/templates/_bower.temp.json', 'bower.json', function(error){
+			createdLog(error, 'bower.json');
+		});
+		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', function(error){
+			createdLog(error, 'gulp.js');
+		});
 	},
 	init: function(cwd) {
 		var ght_ = this;

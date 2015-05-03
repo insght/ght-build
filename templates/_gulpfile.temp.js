@@ -1,7 +1,7 @@
 'use strict';
 
-var gulp		= require('gulp');
-var ghtbuild	= require('ght-build');
+var gulp = require('gulp');
+var ght	 = require('ght-build');
 
-gulp.task('init-project', function(){ghtbuild.init();});
+gulp.task('dev', [],function(){ });
 
