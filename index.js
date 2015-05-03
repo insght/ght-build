@@ -99,9 +99,10 @@ module.exports = {
 	init: function(cwd) {
 		this.createEmptyDirectories();
 
-		exec('cd '  + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
-			var when = promise.when;
-			when(deferred.promise, function() {
+		var skinPath = process.cwd() + '/' + skinPath('default');
+
+		var when = promise.when;
+		when(deferred.promise, function() {
 			prompt.start();
 			var prompts = [{
 				description: "Install Gulp? (yes or no)",
@@ -135,7 +136,7 @@ module.exports = {
 
 						console.log(stdout);
 
-						exec('bower install', function (error, stdout, stderr) {
+						exec('cd '+skinPath+' && bower install', function (error, stdout, stderr) {
 							console.log(stdout);
 
 							fse.copy(__dirname + '/templates/_bower.json.temp', process.cwd() + '/' + skinPath('default/') + 'bower.json', function(error){
@@ -156,7 +157,7 @@ module.exports = {
 					console.log('Starting for install gulp package');
 					exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
 						console.log(stdout);
-						exec('npm install gulp --save-dev', function (error, stdout, stderr) {
+						exec('cd '+skinPath+' && npm install gulp --save-dev', function (error, stdout, stderr) {
 							console.log(stdout);
 
 							fse.copy(__dirname + '/templates/_gulpfile.js.temp', process.cwd() + '/' + skinPath('default/') + 'gulpfile.js', function(error){
@@ -186,7 +187,6 @@ module.exports = {
 						});
 					});
 				});
-			});
 			});
 		});
 	}
