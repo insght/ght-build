@@ -4,6 +4,7 @@
 var fs		= require('fs');
 var fse 	= require('fs-extra');
 var path	= require('path');
+var promise	= require('promise');
 var mkdirp	= require('mkdirp');
 var exec	= require('child_process').exec;
 
@@ -47,7 +48,7 @@ module.exports = {
 		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', console.log);
 	},
 	init: function() {
-		this.createEmptyDirectories();
-		this.createFiles();
+		var when = require("promise").when;
+		when(this.createEmptyDirectories(), this.createFiles);
 	}
 };
