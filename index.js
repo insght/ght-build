@@ -1,13 +1,14 @@
 'use strict';
 
 // modules
-var fs		= require('fs');
-var fse 	= require('fs-extra');
-var path	= require('path');
-var replace = require("replace");
-var promise	= require('node-promise');
-var mkdirp	= require('mkdirp');
-var exec	= require('child_process').exec;
+var fs			= require('fs');
+var fse 		= require('fs-extra');
+var path		= require('path');
+var promptly	= require('promptly');
+var replace 	= require("replace");
+var promise		= require('node-promise');
+var mkdirp		= require('mkdirp');
+var exec		= require('child_process').exec;
 
 // app
 var settings = JSON.parse(fs.readFileSync('ght-project.json','utf8'));
@@ -79,6 +80,22 @@ module.exports = {
 
 		fse.copy(__dirname + '/templates/_bower.temp.json', 'bower.json', function(error){
 			createdLog(error, 'bower.json');
+
+			replace({
+				regex: "{project_name}",
+				replacement: settings.name,
+				paths: ['bower.json'],
+				recursive: true,
+				silent: true
+			});
+
+			replace({
+				regex: "{main_css}",
+				replacement: "/skin/frontend/" + settings.name + "/default/css/main.css",
+				paths: ['bower.json'],
+				recursive: true,
+				silent: true
+			});
 		});
 
 		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', function(error){
@@ -91,31 +108,27 @@ module.exports = {
 
 		when(this.createEmptyDirectories(), function(){
 			when(ght_.createFiles(cwd), function(){
-				replace({
-					regex: "{project_name}",
-					replacement: settings.name,
-					paths: ['bower.json'],
-					recursive: true,
-					silent: true
-				});
 
-				replace({
-					regex: "{main_css}",
-					replacement: "/skin/frontend/" + settings.name + "/default/css/main.css",
-					paths: ['bower.json'],
-					recursive: true,
-					silent: true
-				});
-
+				console.log('Install: Bower');
 				exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
 					console.log(stdout);
 				});
 
+				console.log("\n\r", 'Install: Gulp');
 				exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
 					console.log(stdout);
 				});
+
+				promptly.prompt('Install susy?(Yes\\No): ', function (err, value) {
+					if(value == 'yes') {
+						exec('gem install susy', function (error, stdout, stderr) {
+							console.log(stdout);
+						});
+					} else {
+						console.log('Finished!');
+					}
+				});
 			});
 		});
-
 	}
 };
