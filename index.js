@@ -84,8 +84,6 @@ module.exports = {
 		});
 		mkdirp(designPath('default'), function(error){
 			createdLog(error, designPath('default'));
-
-			defered.resolve('finish');
 		});
 	},
 	createFiles: function(cwd) {
@@ -101,6 +99,8 @@ module.exports = {
 				});
 			});
 		}
+
+		defered.resolve('finish');
 	},
 	init: function(cwd) {
 		this.createEmptyDirectories();
@@ -168,7 +168,6 @@ module.exports = {
 
 							fse.copy(__dirname + '/templates/_gulpfile.js.temp', process.cwd() + '/' + skinPath('default/') + 'gulpfile.js', function(error){
 								createdLog(error, 'gulpfile.js');
-								deferred.resolve('Creating files finished');
 							});
 						});
 					});
