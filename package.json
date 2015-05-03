@@ -1,6 +1,6 @@
 {
   "name": "ght-build",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "description": "Magento Project Initialization for Frontend",
   "main": "index.js",
   "scripts": {
@@ -10,10 +10,21 @@
     "type": "git",
     "url": "https://github.com/insght/ght-build.git"
   },
-  "author": "insght <umozzie@gmail.com>",
+  "author": {
+    "name": "insght",
+    "email": "umozzie@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/insght/ght-build/issues"
   },
+  "bin": {
+    "ghtbuild": "./bin/ght.js"
+  },
+  "files": [
+    "index.js",
+    "ghtproject.js",
+    "bin"
+  ],
   "homepage": "https://github.com/insght/ght-build"
 }
