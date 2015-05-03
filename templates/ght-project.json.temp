@@ -2,9 +2,6 @@
   "name": "test-theme",
   "fileAndDirs": {
     "scss": {
-      "sprites": [
-        "icons.scss"
-      ],
       "content": [
         "_homepage.scss"
       ],

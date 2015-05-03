@@ -1,0 +1,13 @@
+{
+  "name": "{project_name}",
+  "version": "1.0.0",
+  "main": "{main_css}",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "jquery": "^2.0.0"
+  },
+  "devDependencies": {}
+}

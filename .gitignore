@@ -1,1 +1,6 @@
 .idea
+/var
+/media
+/node_modules
+/skin/frontend/{project_name}/default/.sass-cache
+/skin/frontend/{project_name}/default/js/vendor

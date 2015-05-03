@@ -29,10 +29,29 @@ var createdLog = function(error, dir) {
 	return console.log(error, ' - error: ' + error);
 };
 
+var replaceStr = function(regex, replacement, files) {
+	replace({regex: regex, replacement: replacement, paths: files, recursive: false, silent: true});
+};
+
+var rmdir = function(dir) {
+	var list = fs.readdirSync(dir);
+	for(var i = 0; i < list.length; i++) {
+		var filename = path.join(dir, list[i]);
+		var stat = fs.statSync(filename);
+
+		if(filename == "." || filename == "..") {
+		} else if(stat.isDirectory()) {
+			rmdir(filename);
+		} else {
+			fs.unlinkSync(filename);
+		}
+	}
+	fs.rmdirSync(dir);
+};
+
 module.exports = {
 	createEmptyDirectories: function(){
 		// skin dir
-
 		mkdirp(skinPath(''), function(error){
 			createdLog(error, skinPath());
 		});
@@ -81,41 +100,18 @@ module.exports = {
 			});
 		}
 
-		fse.copy(__dirname + '/templates/_bower.temp.json', 'bower.json', function(error){
+		fse.copy(__dirname + '/templates/_bower.json.temp', 'bower.json', function(error){
 			createdLog(error, 'bower.json');
-
-			replace({
-				regex: "{project_name}",
-				replacement: settings.name,
-				paths: ['bower.json'],
-				recursive: true,
-				silent: true
-			});
-
-			replace({
-				regex: "{main_css}",
-				replacement: "/skin/frontend/" + settings.name + "/default/css/main.css",
-				paths: ['bower.json'],
-				recursive: true,
-				silent: true
-			});
+			replaceStr('{project_name}', settings.name, ['bower.json']);
 		});
 
 		fse.copy(__dirname + '/templates/.bowerrc.temp', '.bowerrc', function(error){
 			createdLog(error, '.bowerrc');
-
-			replace({
-				regex: "{project_name}",
-				replacement: settings.name,
-				paths: ['.bowerrc'],
-				recursive: true,
-				silent: true
-			});
+			replaceStr('{project_name}', settings.name, ['.bowerrc']);
 		});
 
-		fse.copy(__dirname + '/templates/_gulpfile.temp.js', 'gulpfile.js', function(error){
+		fse.copy(__dirname + '/templates/_gulpfile.js.temp', 'gulpfile.js', function(error){
 			createdLog(error, 'gulpfile.js');
-
 			deferred.resolve('Creating files finished');
 		});
 
@@ -157,9 +153,15 @@ module.exports = {
 					exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
 						console.log(stdout);
 
-						exec('bower install', function (error, stdout, stderr) {
+						exec('cd '  + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
 							console.log(stdout);
+
+							exec('bower install', function (error, stdout, stderr) {
+								console.log(stdout);
+							});
 						});
+
+
 					});
 				}
 
@@ -179,6 +181,20 @@ module.exports = {
 						console.log(stdout);
 					});
 				}
+
+				console.log('Starting for install compass');
+				exec('gem install compass', function (error, stdout, stderr) {
+					console.log(stdout, stderr, error);
+
+					exec('compass create ' + process.cwd() + '/' + skinPath('default'), function (error, stdout, stderr) {
+						rmdir(process.cwd() + '/' + skinPath('default/stylesheets'));
+						rmdir(process.cwd() + '/' + skinPath('default/sass'));
+
+						fse.copy(__dirname + '/templates/styles.scss.temp', process.cwd() + '/' + skinPath('default/sass/')  + 'styles.scss', function(error){
+							createdLog(error, 'styles.scss');
+						});
+					});
+				});
 			});
 		});
 	}
