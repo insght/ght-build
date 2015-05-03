@@ -94,7 +94,7 @@ module.exports = {
 				replace({
 					regex: "{project_name}",
 					replacement: settings.name,
-					paths: [cwd + '/bower.json'],
+					paths: ['bower.json'],
 					recursive: true,
 					silent: true
 				});
@@ -102,7 +102,7 @@ module.exports = {
 				replace({
 					regex: "{main_css}",
 					replacement: "/skin/frontend/" + settings.name + "/default/css/main.css",
-					paths: [cwd + '/bower.json'],
+					paths: ['bower.json'],
 					recursive: true,
 					silent: true
 				});
