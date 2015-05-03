@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "path": "latest",
-    "promise": "latest",
+    "node-promise": "^0.5.12",
     "gulp": "latest",
     "fs-extra": "latest",
     "mkdirp": "latest",
