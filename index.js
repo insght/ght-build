@@ -160,6 +160,14 @@ var ght = {
 					rmdir(ght.cwdPath('skin', 'stylesheets'));
 					rmdir(ght.cwdPath('skin', 'sass'));
 
+					ght.replaceString('"stylesheets"', '"css"', [ght.cwdPath('skin', 'config.rb')]);
+					ght.replaceString('"sass"', '"scss"', [ght.cwdPath('skin', 'config.rb')]);
+					ght.replaceString(
+						'"/"',
+						'"/skin/frontend/'+settings.package+'/'+settings.theme+'"',
+						[ght.cwdPath('skin', 'config.rb')]
+					);
+
 					fse.copy(
 						ght.templatePath('styles.scss.temp'),
 						ght.cwdPath('skin', 'scss/styles.scss'),
