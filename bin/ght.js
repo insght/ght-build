@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 var ghtModule	= require('../index.js');
+var ghtConf		= require('../app/ght.schema.js');
+
 var Liftoff		= require('liftoff');
 var promise		= require('node-promise');
 var prompt		= require('prompt');
-var ghtConf		= require('../ght.schema.js');
 
 var ght = new Liftoff({
 	name:			'ghtbuild',
 	processTitle:	'ghtbuild',
 	moduleName:		'ght-build',
-	configName:		'ghtproject',
+	configName:		'ght-project',
 	extensions:		{ '.json': null },
 	v8flags:		require('v8flags')
 });
@@ -57,7 +58,7 @@ var invoke = function (env) {
 
 ght.launch({
 	cwd:		argv.cwd,
-	configPath:	'ghtproject',
+	configPath:	'ght-project',
 	require:	argv.require,
 	completion:	argv.completion
 }, invoke);

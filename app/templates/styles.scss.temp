@@ -1,0 +1,49 @@
+// --------- compass -----------
+@import "compass/reset";
+@import "compass/utilities/general/clearfix";
+@import "compass/css3/opacity";
+@import "compass/css3/font-face";
+@import "compass/css3/border-radius";
+@import "compass/css3/transition";
+@import "compass/css3/transform";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+@import "compass/utilities/sprites";
+
+// SUSY
+@import "susy";
+$susy: (
+	columns:	12,
+	gutter-position: split,
+	gutters:	0,
+	debug:		(image: hide)
+);
+
+// --------- configuration variables -----------
+// http://compass-style.org/help/tutorials/exclude_vendor_prefixes/
+$experimental-support-for-mozilla:		true !default;
+$experimental-support-for-webkit:		true !default;
+$support-for-original-webkit-gradients:	true !default;
+$experimental-support-for-opera:		true !default;
+$experimental-support-for-microsoft:	true !default;
+$experimental-support-for-khtml:		true !default;
+
+// http://compass-style.org/reference/compass/support/
+$legacy-support-for-ie: 				true;
+$experimental-support-for-khtml:		true;
+
+$desktop_container_width:	1170px;
+$tablet_container_width:	750px;
+$mobile_container_width:	290px;
+
+$template_dir:					"../";
+
+$width_phone-p:	319px;
+$width_phone-l:	568px;
+$width_tab-p:	639px;
+$width_tab-l:	1024px;
+$width_desk:	1020px;
+
+// layout
+@import "layout/header";
+@import "layout/footer";

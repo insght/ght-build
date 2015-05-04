@@ -9,7 +9,7 @@ var replace 	= require("replace");
 var promise		= require('node-promise');
 var mkdirp		= require('mkdirp');
 var exec		= require('child_process').exec;
-var ghtConf		= require('./ght.schema.js');
+var ghtConf		= require('./app/ght.schema.js');
 var when		= promise.when;
 
 var defer		= promise.defer;
@@ -62,37 +62,28 @@ var ght = {
 		return cwd(additional);
 	},
 	templatePath: function(templatename) {
-		return __dirname + '/templates/' + templatename;
+		return __dirname + '/app/templates/' + templatename;
 	},
 	createDirectories: function() {
-		// skin dir
-		mkdirp(ght.skinPath('/'), function(error){
-			log(error, ght.skinPath(''));
-		});
-
-		var magento19SkinSchema = ghtConf.ghtThemeSchema.magento19.skin;
-		magento19SkinSchema.forEach(function(dir, index){
-			mkdirp(ght.skinPath(dir),function(error){
-				log(error, ght.skinPath(dir));
-			});
-		});
-
-		// app design dirs
-		mkdirp(ght.designPath('/'), function(error){
-			log(error, ght.designPath(''));
-		});
-
-		var magento19DesignSchema = ghtConf.ghtThemeSchema.magento19.design;
+		// design directories
+		var magento19DesignSchema = ghtConf.themeSchema.magento19.design;
 		magento19DesignSchema.forEach(function(dir, index){
 			mkdirp(ght.designPath(dir),function(error){
 				log(error, ght.designPath(dir));
+			});
+		});
 
-				if(index == (magento19DesignSchema.length-1)) {
+		// skin directories
+		var magento19SkinSchema = ghtConf.themeSchema.magento19.skin;
+		magento19SkinSchema.forEach(function(dir, index){
+			mkdirp(ght.skinPath(dir),function(error){
+				log(error, ght.skinPath(dir));
+
+				if(index == (magento19SkinSchema.length-1)) {
 					deferred.resolve('Finish');
 				}
 			});
 		});
-
 		return deferred.promise;
 	},
 	components: {
