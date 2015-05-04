@@ -1,17 +1,4 @@
 {
-  "name": "test-theme",
-  "fileAndDirs": {
-    "scss": {
-      "sprites": [
-        "icons.scss"
-      ],
-      "content": [
-        "_homepage.scss"
-      ],
-      "layout": [
-        "_header.scss",
-        "_footer.scss"
-      ]
-    }
-  }
+  "package": "testpackage",
+  "theme": "default"
 }

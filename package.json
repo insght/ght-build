@@ -45,5 +45,8 @@
     "v8flags": "^2.0.2",
     "vinyl-fs": "^0.3.0"
   },
-  "homepage": "https://github.com/insght/ght-build"
+  "homepage": "https://github.com/insght/ght-build",
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
 }
