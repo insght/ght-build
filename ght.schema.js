@@ -2,24 +2,22 @@ module.exports = {
 	ghtThemeSchema: {
 		'magento19': {
 			design: [
-				'default',
-				'default/etc',
-				'default/layout',
-				'default/template'
+				'etc',
+				'layout',
+				'template'
 			],
 			skin: [
-				'default',
-				'default/css',
-				'default/images',
-				'default/images/sprites',
-				'default/js',
-				'default/js/main',
-				'default/js/vendor',
-				'default/scss',
-				'default/scss/content',
-				'default/scss/layout',
-				'default/scss/mixins',
-				'default/scss/sprites'
+				'css',
+				'images',
+				'images/sprites',
+				'js',
+				'js/main',
+				'js/vendor',
+				'scss',
+				'scss/content',
+				'scss/layout',
+				'scss/mixins',
+				'scss/sprites'
 			]
 		},
 		'magento2': {}
