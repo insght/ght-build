@@ -16,6 +16,7 @@ Installation:
 $ npm install git+https://github.com/insght/ght-build.git -g
 ```
 
+- Copy ght-porject.json to root magento directory, change package to your package name and if you want theme name.
 Run it in magento root directory:
 ```sh
 $ ghtbuild
