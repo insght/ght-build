@@ -1,6 +1,19 @@
 'use strict';
+var gulp		= require('gulp');
+var uglify		= require('gulp-uglify');
+var clean		= require('gulp-clean');
+var compass		= require('gulp-compass');
+var watch		= require('gulp-watch');
+var bowerMain	= require('main-bower-files');
+var gulpFilter	= require('gulp-filter');
+var rename		= require('gulp-rename');
+var concat		= require('gulp-concat');
+var del			= require('del');
 
-var gulp = require('gulp');
-var ght	 = require('ght-build');
+// filters
+var jsFilter	= gulpFilter('*.js');
+var cssFilter	= gulpFilter('*.css');
+var fontFilter	= gulpFilter(['*.eot', '*.woff', '*.svg', '*.ttf']);
+var imageFilter	= gulpFilter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg']);
 
 gulp.task('dev', [],function(){ });

@@ -1,0 +1,22 @@
+{
+  "name": "{project_name}",
+  "version": "0.0.0",
+  "description": "",
+  "main": "{main_css}",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "gulp": "latest",
+    "gulp-watch": "latest",
+    "gulp-bower": "latest",
+    "gulp-clean": "latest",
+    "gulp-uglify": "latest",
+    "gulp-filter": "latest",
+    "gulp-concat": "latest",
+    "gulp-rename": "latest",
+    "main-bower-files": "latest",
+    "gulp-compass": "latest"
+  }
+}

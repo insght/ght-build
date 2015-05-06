@@ -11,8 +11,9 @@ module.exports = {
 				'images',
 				'images/sprites',
 				'js',
-				'js/main',
-				'js/vendor',
+				'js/src/main',
+				'js/src/vendor',
+				'js/dist',
 				'scss',
 				'scss/content',
 				'scss/layout',
@@ -23,6 +24,18 @@ module.exports = {
 		'magento2': {}
 	},
 	promptProperties: [{
+		description: "Please enter name of your package?",
+		name: 'packageName',
+		default: 'testmage',
+		required: true,
+		hidden: false
+	},{
+		description: "Please enter name of package theme ?",
+		name: 'themeName',
+		default: 'default',
+		required: true,
+		hidden: false
+	},{
 		description: "Install or update Gulp? (yes or no)",
 		name: 'gulp',
 		default: 'yes',

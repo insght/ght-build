@@ -6,8 +6,10 @@ Help magento frontend developers with initialization package and theme.
  - Creating your package with default theme.
  - Install or update gulp(local and global) with gulpfile.js, with tasks in root theme directory.
  - Install or update bower(global) with .bowerrc and bower.json file with needed libraries in root theme directory.
- - Install or update compass and create project with "base" styles.scss file in root directory of your theme.
+ - Install or update compass and create project, setting up him and make "base" styles.scss file in root directory of your theme.
  - Install or update susy.
+ - Install needed bower components
+ - Install needed gulp modules
 
 
 ## Getting started
@@ -16,7 +18,6 @@ Installation:
 $ npm install git+https://github.com/insght/ght-build.git -g
 ```
 
-- Copy ght-porject.json to root magento directory, change package to your package name and if you want theme name.
 Run it in magento root directory:
 ```sh
 $ ghtbuild

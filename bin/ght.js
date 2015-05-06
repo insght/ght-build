@@ -18,41 +18,50 @@ var argv = require('minimist')(process.argv.slice(2));
 
 var invoke = function (env) {
 	var when = promise.when;
+	prompt.start();
 
-	when(ghtModule.createDirectories(), function(){
-		prompt.start();
+	var prompts = ghtConf.promptProperties;
+	prompt.get(prompts, function (error, props) {
+		var gulp		= props.gulp;
+		var bower		= props.bower;
+		var susy		= props.susy;
+		var packageName	= props.packageName;
+		var themeName	= props.themeName;
+		var compass		= props.compass;
 
-		var prompts = ghtConf.promptProperties;
-		prompt.get(prompts, function (error, props) {
-			var gulp	= props.gulp;
-			var bower	= props.bower;
-			var susy	= props.susy;
-			var compass	= props.compass;
+		if(packageName !== '' && themeName !== '') {
+			var ght			= ghtModule;
+			ght.themeName	= themeName;
+			ght.packageName	= packageName;
 
-			if(gulp == 'yes') {
-				ghtModule.components.gulp();
-			} else {
-				console.log('Gulp will not installed');
-			}
+			when(ght.createDirectories(), function(){
+				if(gulp == 'yes') {
+					ght.components.gulp();
+				} else {
+					console.log('Gulp will not installed');
+				}
 
-			if(bower == 'yes') {
-				ghtModule.components.bower();
-			} else {
-				console.log('Bower will not installed');
-			}
+				if(bower == 'yes') {
+					ght.components.bower();
+				} else {
+					console.log('Bower will not installed');
+				}
 
-			if(susy == 'yes') {
-				ghtModule.components.susy();
-			} else {
-				console.log('Susy will not installed');
-			}
+				if(susy == 'yes') {
+					ght.components.susy();
+				} else {
+					console.log('Susy will not installed');
+				}
 
-			if(compass == 'yes') {
-				ghtModule.components.compass();
-			} else {
-				console.log('Compass will not installed');
-			}
-		});
+				if(compass == 'yes') {
+					ght.components.compass();
+				} else {
+					console.log('Compass will not installed');
+				}
+			});
+		} else {
+			process.exit(0);
+		}
 	});
 };
 

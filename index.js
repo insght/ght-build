@@ -15,9 +15,6 @@ var when		= promise.when;
 var defer		= promise.defer;
 var deferred	= defer();
 
-// app
-var settings = JSON.parse(fs.readFileSync('ght-project.json','utf8'));
-
 var log = function(error, dir) {
 	if(!error) return console.log(dir + ' - Created!');
 	return console.log('error: ' + error);
@@ -40,24 +37,24 @@ var rmdir = function(dir) {
 };
 
 var ght = {
+	packageName: '', themeName: '',
 	replaceString: function(regex, replacement, files) {
 		replace({regex: regex, replacement: replacement, paths: files, recursive: false, silent: true});
 	},
 	skinPath: function(additional) {
 		return 'skin/frontend/'
-			+ settings.package
-			+ '/' + settings.theme
+			+ this.packageName
+			+ '/' + this.themeName
 			+ '/' + additional;
 	},
 	designPath: function(additional) {
 		return 'app/design/frontend/'
-			+ settings.package
-			+ '/' + settings.theme
+			+ this.packageName
+			+ '/' + this.themeName
 			+ '/' + additional;
 	},
 	cwdPath: function(type, additional) {
-		var _ght = this;
-		var cwd	 = _ght[type + 'Path'];
+		var cwd	 = this[type + 'Path'];
 
 		return cwd(additional);
 	},
@@ -65,10 +62,11 @@ var ght = {
 		return __dirname + '/app/templates/' + templatename;
 	},
 	createDirectories: function() {
+		var _this = this;
 		// design directories
 		var magento19DesignSchema = ghtConf.themeSchema.magento19.design;
 		magento19DesignSchema.forEach(function(dir, index){
-			mkdirp(ght.designPath(dir),function(error){
+			mkdirp(_this.designPath(dir),function(error){
 				log(error, ght.designPath(dir));
 			});
 		});
@@ -76,7 +74,7 @@ var ght = {
 		// skin directories
 		var magento19SkinSchema = ghtConf.themeSchema.magento19.skin;
 		magento19SkinSchema.forEach(function(dir, index){
-			mkdirp(ght.skinPath(dir),function(error){
+			mkdirp(_this.skinPath(dir),function(error){
 				log(error, ght.skinPath(dir));
 
 				if(index == (magento19SkinSchema.length-1)) {
@@ -88,53 +86,66 @@ var ght = {
 	},
 	components: {
 		bower: function() {
+			var _this = ght;
+
 			exec('npm install bower -g --save-dev', function (error, stdout, stderr) {
 				console.log(stdout);
 
 				var filesCreated = 0;
 				fse.copy(
-					ght.templatePath('_bower.json.temp'),
-					ght.cwdPath('skin', 'bower.json'),
+					_this.templatePath('_bower.json.temp'),
+					_this.skinPath('bower.json'),
 					function(error){
 						log(error, 'bower.json');
-						ght.replaceString('{project_name}', settings.name, [ght.cwdPath('skin', 'bower.json')]);
+						ght.replaceString('{project_name}', _this.packageName, [_this.skinPath('bower.json')]);
 
 						filesCreated += 1;
 					}
 				);
 
 				fse.copy(
-					ght.templatePath('.bowerrc.temp'),
-					ght.cwdPath('skin', '.bowerrc'),
+					_this.templatePath('.bowerrc.temp'),
+					_this.skinPath('.bowerrc'),
 					function(error){
 						log(error, '.bowerrc');
-						ght.replaceString('{project_name}', settings.name, [ght.cwdPath('skin', '.bowerrc')]);
+						_this.replaceString('{project_name}', _this.packageName, [_this.skinPath('.bowerrc')]);
 
 						filesCreated += 1;
 					}
 				);
 
 				when(filesCreated, function(){
-					exec('cd ' + ght.cwdPath('skin', '') + ' && bower install', function (error, stdout, stderr) {
+					exec('cd ' + _this.skinPath('') + ' && bower install', function (error, stdout, stderr) {
 						console.log(stdout);
 					});
 				});
 			});
 		},
 		gulp: function() {
+			var _this = ght,
+				 when = promise.when;
 			exec('npm install gulp -g --save-dev', function (error, stdout, stderr) {
 				console.log(stdout);
 
-				exec('cd ' + ght.cwdPath('skin', '') + ' && npm install gulp --save-dev', function (error, stdout, stderr) {
-					console.log(stdout);
+				when(fse.copy(
+					_this.templatePath('package.json.temp'),
+					_this.skinPath('package.json'),
+					function(error){
+						log(error, 'package.json');
+						_this.replaceString('{project_name}', _this.packageName, [_this.skinPath('package.json')]);
+					}
+				),function(){
+					exec('cd ' + ght.skinPath('') + ' && npm install', function (error, stdout, stderr) {
+						console.log(stdout);
 
-					fse.copy(
-						ght.templatePath('_gulpfile.js.temp'),
-						ght.cwdPath('skin', 'gulpfile.js'),
-						function(error){
-							log(error, 'gulpfile.js');
-						}
-					);
+						fse.copy(
+							_this.templatePath('_gulpfile.js.temp'),
+							_this.skinPath('gulpfile.js'),
+							function(error){
+								log(error, 'gulpfile.js');
+							}
+						);
+					});
 				});
 			});
 		},
@@ -144,24 +155,24 @@ var ght = {
 			});
 		},
 		compass: function() {
+			var _this = ght;
 			exec('gem install compass', function (error, stdout, stderr) {
 				console.log(stdout, stderr, error);
 
-				exec('compass create ' + ght.cwdPath('skin', ''), function (error, stdout, stderr) {
-					rmdir(ght.cwdPath('skin', 'stylesheets'));
-					rmdir(ght.cwdPath('skin', 'sass'));
+				exec('compass create ' + _this.skinPath(''), function (error, stdout, stderr) {
+					rmdir(_this.skinPath('stylesheets'));
+					rmdir(_this.skinPath('sass'));
 
-					ght.replaceString('"stylesheets"', '"css"', [ght.cwdPath('skin', 'config.rb')]);
-					ght.replaceString('"sass"', '"scss"', [ght.cwdPath('skin', 'config.rb')]);
-					ght.replaceString(
-						'"/"',
-						'"/skin/frontend/'+settings.package+'/'+settings.theme+'"',
-						[ght.cwdPath('skin', 'config.rb')]
+					_this.replaceString('"stylesheets"', '"css"', [_this.skinPath('config.rb')]);
+					_this.replaceString('"sass"', '"scss"', [_this.skinPath('config.rb')]);
+					_this.replaceString(
+						'"/"', '"/'+_this.skinPath('')+'"',
+						[_this.skinPath('config.rb')]
 					);
 
 					fse.copy(
-						ght.templatePath('styles.scss.temp'),
-						ght.cwdPath('skin', 'scss/styles.scss'),
+						_this.templatePath('styles.scss.temp'),
+						_this.skinPath('scss/styles.scss'),
 						function(error){
 							log(error, 'styles.scss');
 						}
