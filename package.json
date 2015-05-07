@@ -22,13 +22,13 @@
     "ghtbuild": "./bin/ght.js"
   },
   "files": [
-    "ght.schema.js",
     "index.js",
     "templates",
     ".gitignore",
     "README.md",
     "LICENSE",
-    "bin"
+    "bin",
+    "app"
   ],
   "dependencies": {
     "path": "latest",
