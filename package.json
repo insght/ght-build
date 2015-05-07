@@ -1,6 +1,6 @@
 {
   "name": "ght-build",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Magento Project Initialization for Frontend",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,6 @@
     "ght.schema.js",
     "index.js",
     "templates",
-    "ght-project.json",
     ".gitignore",
     "README.md",
     "LICENSE",
@@ -33,6 +32,7 @@
   ],
   "dependencies": {
     "path": "latest",
+    "prompt": "latest",
     "node-promise": "^0.5.12",
     "replace": "latest",
     "promptly": "latest",
