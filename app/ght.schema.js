@@ -23,19 +23,25 @@ module.exports = {
 		},
 		'magento2': {}
 	},
+	sampleData: {
+		'magento19': {
+			database: '',
+			files:    ''
+		}
+	},
 	promptProperties: [{
-		description: "Please enter name of your package?",
+		description: "Please enter name of your package:",
 		name: 'packageName',
 		default: 'testmage',
 		required: true,
 		hidden: false
-	},{
-		description: "Please enter name of package theme ?",
+	}, {
+		description: "Please enter name of theme:",
 		name: 'themeName',
 		default: 'default',
 		required: true,
 		hidden: false
-	},{
+	}, {
 		description: "Install or update Gulp? (yes or no)",
 		name: 'gulp',
 		default: 'yes',
@@ -54,8 +60,8 @@ module.exports = {
 		hidden: false,
 		required: true
 	}, {
-		description: "What you will use on your project? (less or sass)",
-		name: 'pre_processor',
+		description: "How you want to use Twitter Bootstrap? (css or sass)",
+		name: 'bootstrap_type',
 		default: 'sass',
 		hidden: false,
 		required: true

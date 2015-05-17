@@ -6,8 +6,7 @@ Help magento frontend developers with initialization theme.
  - Creates your package with default theme.(package name you will enter to cli)
  - Install or update Gulp(local and global -v), creates gulpfile with included gulp modules.
  - Install or update Bower(global -v), creates .bowerrc file for change bower directory, and bower.json file with most needed libraries.
- - Install or update Compass, creates config.rb for your package, with needed folders and modules.
- - Install or update Susy(optionally)
+ - Install or update Compass, creates config.rb for your package, with needed folders and modules. 
  - After all steps was installed, he'll install needed bower components and gulp dependencies
 
 
@@ -23,8 +22,7 @@ $ ghtbuild
 ```
 
 ## Features (now)
-* Gulp support
-* Susy support
+* Gulp support 
 * Bower support
 * Compass support
 
