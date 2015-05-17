@@ -24,7 +24,6 @@ var invoke = function (env) {
 	prompt.get(prompts, function (error, props) {
 		var gulp		= props.gulp;
 		var bower		= props.bower;
-		var susy		= props.susy;
 		var packageName	= props.packageName;
 		var themeName	= props.themeName;
 		var compass		= props.compass;
@@ -36,25 +35,19 @@ var invoke = function (env) {
 
 			when(ght.createDirectories(), function(){
 				if(gulp == 'yes') {
-					ght.components.gulp();
+					ght.component('gulp').installation();
 				} else {
 					console.log('Gulp will not installed');
 				}
 
 				if(bower == 'yes') {
-					ght.components.bower();
+					ght.component('bower').installation();
 				} else {
 					console.log('Bower will not installed');
 				}
 
-				if(susy == 'yes') {
-					ght.components.susy();
-				} else {
-					console.log('Susy will not installed');
-				}
-
 				if(compass == 'yes') {
-					ght.components.compass();
+					ght.component('compass').installation();
 				} else {
 					console.log('Compass will not installed');
 				}

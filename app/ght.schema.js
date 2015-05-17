@@ -48,12 +48,6 @@ module.exports = {
 		hidden: false,
 		required: true
 	}, {
-		description: "Install or update Susy? (yes or no)",
-		name: 'susy',
-		default: 'yes',
-		hidden: false,
-		required: true
-	}, {
 		description: "Install or update Compass? (yes or no)",
 		name: 'compass',
 		default: 'yes',

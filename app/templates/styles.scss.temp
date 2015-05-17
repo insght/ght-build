@@ -10,15 +10,6 @@
 @import "compass/css3/text-shadow";
 @import "compass/utilities/sprites";
 
-// SUSY
-@import "susy";
-$susy: (
-	columns:	12,
-	gutter-position: split,
-	gutters:	0,
-	debug:		(image: hide)
-);
-
 // --------- configuration variables -----------
 // http://compass-style.org/help/tutorials/exclude_vendor_prefixes/
 $experimental-support-for-mozilla:		true !default;
