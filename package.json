@@ -1,6 +1,10 @@
 {
   "name": "ght-build",
+<<<<<<< HEAD
   "version": "1.0.0",
+=======
+  "version": "0.6.0",
+>>>>>>> origin/master
   "description": "Magento Project Initialization for Frontend",
   "main": "index.js",
   "scripts": {
@@ -22,17 +26,21 @@
     "ghtbuild": "./bin/ght.js"
   },
   "files": [
+<<<<<<< HEAD
     "app",
+=======
+>>>>>>> origin/master
     "index.js",
     "templates",
-    "ght-project.json",
     ".gitignore",
     "README.md",
     "LICENSE",
-    "bin"
+    "bin",
+    "app"
   ],
   "dependencies": {
     "path": "latest",
+    "prompt": "latest",
     "node-promise": "^0.5.12",
     "replace": "latest",
     "promptly": "latest",
