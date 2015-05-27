@@ -25,10 +25,14 @@ $ ghtbuild
 * Gulp support 
 * Bower support
 * Compass support
+* Less support
+* Sass support
+* Magento 1.9.x support
 
 ## Features (todo)
 * Twitter Bootstrap support
 * Magento Sample data installation
+* Magento 2 support
 
 
 
