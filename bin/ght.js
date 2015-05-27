@@ -35,7 +35,8 @@ var invoke = function (env) {
 	prompt.get(prompts, function (error, props) {
 		var gulp		= props.gulp 	=== 'yes',
 			bower		= props.bower 	=== 'yes',
-			compass		= props.compass === 'yes';
+			compass		= props.compass === 'yes',
+			preProcessor= props.preProcessor;
 
 		var packageName	= props.packageName,
 			themeName	= props.themeName;
@@ -44,8 +45,9 @@ var invoke = function (env) {
 			var ght			= ghtModule;
 			ght.themeName	= themeName;
 			ght.packageName	= packageName;
+			ght.preProcessor= preProcessor
 
-			when(ght.createDirectories(), function(){
+			when(ght.component('magento').frontendThemeDirs(preProcessor), function(){
 				if(gulp) {
 					ght.component('gulp').installation(gulp);
 				} else {

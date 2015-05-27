@@ -3,7 +3,7 @@
 // modules
 var fs		= require('fs'), 
 	fse 	= require('fs-extra'), 
-	path	= require('path');
+	path	= require('path'),
  	prompt	= require('prompt'),
  	replace = require("replace"),
  	promise	= require('node-promise'),
@@ -63,25 +63,6 @@ var ght = {
 	},
 	templatePath: function(templatename) {
 		return __dirname + '/app/templates/' + templatename;
-	},
-	createDirectories: function() {
-		var _this = this;
-		// design directories
-		var magento19DesignSchema = ghtConf.themeSchema.magento19.design;
-		magento19DesignSchema.forEach(function(dir, index){
-			ght.mkdir(_this.designPath(dir));
-		});
-
-		// skin directories
-		var magento19SkinSchema = ghtConf.themeSchema.magento19.skin;
-		magento19SkinSchema.forEach(function(dir, index){
-			ght.mkdir(_this.designPath(dir));
-
-			if(index == (magento19SkinSchema.length-1)) {
-				deferred.resolve('Finish');
-			}
-		});
-		return deferred.promise;
 	},
 	component: function(name){
 		var component = require('./app/components/' + name + '.js');

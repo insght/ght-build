@@ -8,7 +8,6 @@ var bowerMain	= require('main-bower-files');
 var gulpFilter	= require('gulp-filter');
 var rename		= require('gulp-rename');
 var concat		= require('gulp-concat');
-var del			= require('del');
 
 // filters
 var jsFilter	= gulpFilter('*.js');
@@ -16,4 +15,11 @@ var cssFilter	= gulpFilter('*.css');
 var fontFilter	= gulpFilter(['*.eot', '*.woff', '*.svg', '*.ttf']);
 var imageFilter	= gulpFilter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg']);
 
-gulp.task('dev', [],function(){ });
+gulp.task('init-project', function(){
+    return gulp.src(['./js/src/vendor/**/*.js'])
+        .pipe(concat('vendor.js'))
+        .pipe(gulp.dest('./js/dist'))
+        .pipe(rename('vendor.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./js/dist'));
+});

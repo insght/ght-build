@@ -33,7 +33,11 @@ var GulpComponent = {
 					var gulpTemplate = ght.templatePath('_gulpfile.js.temp');
 					var gulpDist     = ght.skinPath('gulpfile.js');
 
-					fse.copy(gulpTemplate, gulpDist, console.log);
+					fse.copy(gulpTemplate, gulpDist, function(e, b, c){
+						console.log(e, b, c);
+
+						exec('cd ' + ght.skinPath('') + ' && gulp init-project');
+					});
 				}
 			}
 		}

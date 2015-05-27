@@ -14,13 +14,24 @@ module.exports = {
 				'js/src/main',
 				'js/src/vendor',
 				'js/dist',
+			]
+		},
+		'preProcessor': {
+			'sass': [
 				'scss',
 				'scss/content',
 				'scss/layout',
 				'scss/mixins',
 				'scss/sprites'
+			],
+			'less': [
+				'less',
+				'less/content',
+				'less/layout',
+				'less/mixins'
 			]
 		},
+
 		'magento2': {}
 	},
 	sampleData: {
@@ -53,16 +64,16 @@ module.exports = {
 		default: 'yes',
 		hidden: false,
 		required: true
-	}, {
-		description: "Install or update Compass? (yes or no)",
-		name: 'compass',
-		default: 'yes',
+	},  {
+		description: "Enter preprocessor name: (sass or less)",
+		name: 'preProcessor',
+		default: 'sass',
 		hidden: false,
 		required: true
-	}, {
-		description: "How you want to use Twitter Bootstrap? (css or sass)",
-		name: 'bootstrap_type',
-		default: 'sass',
+	},{
+		description: "Install or update Compass? (yes or no)",
+		name: 'compass',
+		default: 'no',
 		hidden: false,
 		required: true
 	}]
